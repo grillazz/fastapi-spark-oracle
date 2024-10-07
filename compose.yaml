@@ -1,0 +1,18 @@
+services:
+  oracle:
+    image: container-registry.oracle.com/database/enterprise:latest
+    environment:
+      - ORACLE_PWD=oracle
+      - ORACLE_SID=ORCLCDB
+      - ORACLE_PDB=ORCLPDB1
+    ports:
+      - "1521:1521"
+      - "5500:5500"
+    volumes:
+      - ./oracle-data:/opt/oracle/oradata
+      - ./oracle-logs:/opt/oracle/logs
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:5500/em" ]
+      interval: 1m
+      timeout: 10s
+      retries: 5
